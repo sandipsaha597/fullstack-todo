@@ -6,13 +6,14 @@ const bcrypt = require('bcrypt')
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
-const code = require('./nodemon.json')
+const code = require('./nodemon.json') || ''
 
 const uri = "mongodb+srv://sandip:" + (process.env.MONGO_ATLAS_PW || code.env.MONGO_ATLAS_PW) + "@todo-app-lyobv.mongodb.net/test?retryWrites=true&w=majority";
 
 const Product = require("./models/product")
 const User = require("./models/user")
 
+console.log('running')
 
 mongoose.connect(uri, {
   dbName: "fullstack",
