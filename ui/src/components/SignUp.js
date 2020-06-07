@@ -30,7 +30,7 @@ export default function SignUp() {
       if(res.data.msg === 'success') {
         console.log(res)
         localStorage.setItem("accessToken", res.data.accessToken)
-        return history.push('/todos')
+        return history.push('/')
       } else {
         alert(res.data.msg)
       }
