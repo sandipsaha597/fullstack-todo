@@ -6,7 +6,9 @@ const bcrypt = require('bcrypt')
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
-const code = require('./nodemon.json') || ''
+let code = require('./nodemon.json') || ''
+
+// console.log(code)
 
 const uri = "mongodb+srv://sandip:" + (process.env.MONGO_ATLAS_PW || code.env.MONGO_ATLAS_PW) + "@todo-app-lyobv.mongodb.net/test?retryWrites=true&w=majority";
 
