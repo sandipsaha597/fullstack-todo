@@ -101,7 +101,7 @@ function Todos() {
   
   return (
     <>
-      <h1>Todos</h1>
+      <h1>Todo app</h1>
       <h2>Hi {username}</h2>
       <form>
         <input type="text" value={todoInput.title} onChange={e => setTodoInput({title: e.target.value})} />
