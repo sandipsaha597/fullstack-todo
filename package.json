@@ -5,7 +5,7 @@
   "main": "server.js",
   "proxy": "http://localhost:4000",
   "scripts": {
-    "start": "server.js",
+    "start": "node server.js",
     "devStart": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ui && npm run build --prefix ui"
