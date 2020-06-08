@@ -67,6 +67,11 @@ app.get('/todos', authenticateToken, (req, res) => {
   // }) 
 
 })
+app.get("/api/working", (req, res) => {
+  console.log('working')
+  res.json({msg: "working"})
+}) 
+
 app.get('/test', (req, res) => {
   console.log('req test')
   res.json({msg: 'test'})
