@@ -22,10 +22,10 @@ function Todos() {
       console.log(url)
     }
   }, [])
-
+  
   const getTodos = () => {
     if(localStorage.getItem('accessToken') != null) { 
-      console.log('req todos')
+      console.log('req todos react')
       axios.get('/todos', {
         headers: {
           'Content-Type': 'application/json',

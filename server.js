@@ -60,10 +60,11 @@ const authenticateToken = (req, res, next) => {
 
 app.get('/todos', authenticateToken, (req, res) => {
   console.log('req todos')
-  User.findOne({username: req.username}, (err, data) => {
-    if (err) throw err
-      res.status(200).json(data)
-  }) 
+  res.status(201).json({msg: 'working'})
+  // User.findOne({username: req.username}, (err, data) => {
+  //   if (err) throw err
+  //     res.status(200).json(data)
+  // }) 
 
 })
 app.get('/test', (req, res) => {
