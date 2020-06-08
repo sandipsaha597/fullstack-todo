@@ -38,12 +38,12 @@ app.use(express.json())
 
 console.log(__dirname)
 // serve static assets if in production
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static('ui/build'))
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'ui', 'build', 'index.html'))
-//   })
-// }
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('ui/build'))
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'ui', 'build', 'index.html'))
+  })
+}
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.header('authorization') || req.body.headers.authorization
