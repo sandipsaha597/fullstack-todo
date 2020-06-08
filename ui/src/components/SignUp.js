@@ -9,7 +9,7 @@ export default function SignUp() {
 
   const signup = (e) => {
     e.preventDefault()
-    axios.post('http://localhost:4000/signup', 
+    axios.post('/signup', 
     {
       username: username,
       password: password 
@@ -21,7 +21,7 @@ export default function SignUp() {
   const login = (e) => {
     e.preventDefault()
     console.log('click');
-    axios.post('http://localhost:4000/login', 
+    axios.post('/login', 
     {
       username: username,
       password: password

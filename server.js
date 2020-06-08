@@ -54,12 +54,10 @@ const authenticateToken = (req, res, next) => {
 
 app.get('/todos', authenticateToken, (req, res) => {
   console.log('req todos')
-  res.status(201).json({msg: 'working'})
-  // User.findOne({username: req.username}, (err, data) => {
-  //   if (err) throw err
-  //     res.status(200).json(data)
-  // }) 
-
+  User.findOne({username: req.username}, (err, data) => {
+    if (err) throw err
+      res.status(200).json(data)
+  })
 })
 app.get("/api/working", (req, res) => {
   console.log('working')
@@ -95,12 +93,6 @@ app.delete('/todos/delete/:id', authenticateToken, (req, res) => {
   })
 })
 
-app.get('/', (req, res) => {  
-  User.find({}, (err, data) => {
-    if (err) throw err
-    res.status(200).json(data)
-  })
-})
 
 const generateAccessToken = user => {
   return jwt.sign({username: user}, (process.env.ACCESS_TOKEN_SECRET || code.env.ACCESS_TOKEN_SECRET), {expiresIn: '2d'})
