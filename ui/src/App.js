@@ -8,7 +8,6 @@ function App() {
 
   return (
     <Router>
-      {/* {rLogin && <Redirect to="/todos" />} */}
       <div className="App">
       <Route path="/signup">
         <SignUp />

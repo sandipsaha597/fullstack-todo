@@ -11,9 +11,22 @@ function Todos() {
   const [todoInput, setTodoInput] = useState({_id: '', title: ''})
   const [save, setSave] = useState(false)
 
+  let url 
+  useEffect(() => {
+    try {
+      if (process.env.NODE.ENV === 'production') {
+        url = 'http://localhost:4000'
+      }
+    } catch {
+      url = ''
+      console.log(url)
+    }
+  }, [])
+
   const getTodos = () => {
-    if(localStorage.getItem('accessToken') != null) {
-      axios.get('http://localhost:4000/todos', {
+    if(localStorage.getItem('accessToken') != null) { 
+      console.log('req todos')
+      axios.get('/todos', {
         headers: {
           'Content-Type': 'application/json',
           "authorization": "Bearer " + localStorage.getItem('accessToken')

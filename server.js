@@ -16,14 +16,10 @@ const mod = () => {
 let code = mod()
 
 
-console.log(code)
-
 const uri = "mongodb+srv://sandip:" + (process.env.MONGO_ATLAS_PW || code.env.MONGO_ATLAS_PW) + "@todo-app-lyobv.mongodb.net/test?retryWrites=true&w=majority";
 
 const Product = require("./models/product")
 const User = require("./models/user")
-
-console.log('running')
 
 mongoose.connect(uri, {
   dbName: "fullstack",
@@ -34,20 +30,28 @@ mongoose.connect(uri, {
 app.use(cors())
 app.use(express.json())
 
+
+// app.use(express.static(__dirname))
+// app.get('*'), (req, res) => {
+// 	res.sendFile(path.resolve(__dirname, 'index.html'))
+// }
+
+console.log(__dirname)
 // serve static assets if in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('ui/build'))
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'ui', 'build', 'index.html'))
-  })
-}
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static('ui/build'))
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'ui', 'build', 'index.html'))
+//   })
+// }
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.header('authorization') || req.body.headers.authorization
-  // console.log(authHeader)
+  console.log('auth ',authHeader)
   const token = authHeader && authHeader.split(' ')[1]
-
+  console.log('token', code.env.ACCESS_TOKEN_SECRET)
   jwt.verify(token, code.env.ACCESS_TOKEN_SECRET, (err, username) => {
+    console.log(err)
     if (err) return res.status(401).json("token not valid")
     req.username = username.username
     next()
@@ -55,18 +59,19 @@ const authenticateToken = (req, res, next) => {
 }
 
 app.get('/todos', authenticateToken, (req, res) => {
-
+  console.log('req todos')
   User.findOne({username: req.username}, (err, data) => {
     if (err) throw err
       res.status(200).json(data)
   }) 
 
-  // res.json(req.username)
-
+})
+app.get('/test', (req, res) => {
+  console.log('req test')
+  res.json({msg: 'test'})
 })
 
 app.put('/todos/update', authenticateToken, (req, res) => {
-  console.log(req.body)
   User.updateOne({username: req.username}, {todos: req.body.allTodos}, (err, data) => {
     if (err) {
       res.status(400).json({msg: "Couldn't update"})
@@ -90,9 +95,7 @@ app.delete('/todos/delete/:id', authenticateToken, (req, res) => {
   })
 })
 
-app.get('/', (req, res) => {
-  console.log('req');
-  
+app.get('/', (req, res) => {  
   User.find({}, (err, data) => {
     if (err) throw err
     res.status(200).json(data)
@@ -100,8 +103,7 @@ app.get('/', (req, res) => {
 })
 
 const generateAccessToken = user => {
-  console.log((process.env.MONGO_ATLAS_PW || 'code ' + code.env.ACCESS_TOKEN_SECRET))
-  return jwt.sign({username: user}, (process.env.MONGO_ATLAS_PW || code.env.ACCESS_TOKEN_SECRET), {expiresIn: '2d'})
+  return jwt.sign({username: user}, (process.env.ACCESS_TOKEN_SECRET || code.env.ACCESS_TOKEN_SECRET), {expiresIn: '2d'})
 }
 
 app.post('/login', (req, res) => {
@@ -145,11 +147,9 @@ app.post('/signup', (req, res) => {
     if (err) throw err
     doesUserExist = data
     // res.json(doesUserExist)
-    console.log(doesUserExist);
 
     if (doesUserExist == null) {
       try {
-        console.log('user')
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         const user = new User({
           username,
