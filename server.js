@@ -41,11 +41,8 @@ console.log(__dirname)
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.header('authorization') || req.body.headers.authorization
-  console.log('auth ',authHeader)
   const token = authHeader && authHeader.split(' ')[1]
-  console.log('token', code.env.ACCESS_TOKEN_SECRET)
-  jwt.verify(token, code.env.ACCESS_TOKEN_SECRET, (err, username) => {
-    console.log(err)
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || code.env.ACCESS_TOKEN_SECRET, (err, username) => {
     if (err) return res.status(401).json("token not valid")
     req.username = username.username
     next()
@@ -56,7 +53,7 @@ app.get('/todos', authenticateToken, (req, res) => {
   console.log('req todos')
   User.findOne({username: req.username}, (err, data) => {
     if (err) throw err
-      res.status(200).json(data)
+    res.status(200).json(data)
   })
 })
 app.get("/api/working", (req, res) => {
